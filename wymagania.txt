@@ -1,0 +1,58 @@
+NOTATKI Z ZAJĘĆ:
+
+ustalic funkcje aplikacji
+
+wykonac rysunki i uproszczone diagramy aktywnosci
+
+zorganizowac srodowisko pracy grupowej
+
+podzielic projekt na etapy i zadania, przyzielić zadania do osób
+
+w każdym zadaniu wyszczególnić:
+- co umiemy/wiemy
+- czego musimy/musielibyśmy się nauczyć i dowiedzieć.
+
+
+
+Wymagnaia niefunkcjonalne:
+- treści zadań trzymać poza root, aby nie były bezpośrednio dostępne po url
+- wrzucone rozwiązania trzymać poza root, aby nie były bezpośrednio dostępne po url
+- aplikacja powinna być responsywna dla różnych urządzeń
+- Dane dla aplikacji powinny być przechowywane w bazie MySQL i w systemie plików.
+
+
+Wymagania funkcjonalne:
+- treści zadań mogą się powtarzać
+- nie może być dwóch użytkowników o takim samym numerze indeksu (???)
+- system dopuszcza rozwiązania tylko w formie pliku zip
+- system zapisuje rozwiązania jako numerInddeksu.zip
+- system powinien umożliwiać konfiguracje otwarcia systemu poprzez plik konfiguracyjny
+
+[0] Użytkownik loguj się:
+- wchodzi na główną stronę logowania
+- wypełnia pola imię, nazwisko, numer indeksu
+- formularz weryfikuje czy numer indeksu jest numerem
+- formularz weryfikuje czy imię i nazwisko nie są puste
+
+- użytkownik klika guzik zaloguj [1/2]
+
+[1] Użytkownik po zalogowaniu nie istnieje w bazie danych:
+  - ma wyświetlony guzik losuj zadanie oraz wyloguj[4]
+  - po kliknięciu guzika losuj, guzik losuj znika, losowane jest zadania, a zamiast niego pojawia się widok [2]
+
+[2] Użytkownik po zalogowaniu istnieje w bazie danych:
+  - ma wyświetlone widok "wrzuć zadanie"[5], wyloguj[4] oraz pobierz treść zadania (pdf)
+
+[3] Gdy system jest zamknięty to wszystkie widoki pokazują komunikat, że system jest zamknięty oraz nie można
+  - wiświetlić/ściągnąć treści zadania
+  - zalogować się
+  - zarejestrować się
+  - wrzucić rozwiązania na serwer[5].
+Czyli wszystkie podstrony przekierowują na stronę główną która informuje, że system jest zamknięty (oraz kiedy będzie otwarty ponownie?)
+
+[4] Gdy użytkownik klika guzik wyloguj jego sesja zostaje zakończona i użytkownik jest przekierowywany na stronę główną.
+
+[5] Gdy użytkownik wrzuca zadanie:
+  - system sprawdza czy zadanie jest w formacie zip
+  - system sprawdza czy zadanie zostało wrzucone, jeśli zadanie już zostało wrzucone to system zwraca błąd
+  - jeśli użytkownik już wrzucił zadanie to system nie wyświetla widoku umożliwiającego wrzucenia zadania, zamiast tego wyświetla datę ostatniego wrzucenia zadania.
