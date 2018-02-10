@@ -25,7 +25,6 @@ import java.io.InputStream;
 public class MainControllerKolos {
 
     private final UserService userService;
-
     private final String filesPath = "/home/rafalzel/projects/strony-www/server/files";
 
     @GetMapping("/draw-page")
@@ -33,7 +32,6 @@ public class MainControllerKolos {
         model.addAttribute("logged", false);
         return "draw-page";
     }
-
 
     @GetMapping("/login")
     public String login(Model model) {
