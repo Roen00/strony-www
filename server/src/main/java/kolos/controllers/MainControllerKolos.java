@@ -15,6 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,7 +36,8 @@ public class MainControllerKolos {
 
     private final UserService userService;
     private final TaskService taskService;
-    private final String filesPath = "/home/rafalzel/projects/strony-www/server/files";
+    private final String tasksPath = "/home/rafalzel/projects/strony-www/server/files";
+    private final String uploadPath = "/home/rafalzel/projects/strony-www/server/filesUploaded";
 
     @GetMapping("/draw-page")
     public String drawPage(Model model) {
@@ -120,7 +124,7 @@ public class MainControllerKolos {
 
     @PostMapping("/losuj")
     public String randomFile(@RequestParam("userId") Long userId, Model model) throws IOException {
-        List<String> filesInFolder = Files.walk(Paths.get(filesPath))
+        List<String> filesInFolder = Files.walk(Paths.get(tasksPath))
                 .filter(Files::isRegularFile)
                 .map(Path::getFileName)
                 .map(s -> FilenameUtils.removeExtension(s.getFileName().toString()))
@@ -141,7 +145,7 @@ public class MainControllerKolos {
     @PostMapping("/fileDownload")
     public HttpEntity<byte[]> getFile(@RequestParam("fileName") String fileName, Model model) {
         try {
-            final String pathname = filesPath + "/" + fileName + ".pdf";
+            final String pathname = tasksPath + "/" + fileName + ".pdf";
             System.out.println(pathname);
             InputStream is = FileUtils.openInputStream(new File(pathname));
 
@@ -154,5 +158,17 @@ public class MainControllerKolos {
             System.out.println(ex.getMessage());
             throw new RuntimeException("IOError writing file to output stream");
         }
+    }
+
+    @PostMapping("/fileUpload")
+    public String handleFileUpload(@RequestParam("userId") Long userId, @RequestParam("file") MultipartFile file, Model model) throws IOException {
+        if(file != null && file.getSize() > 0   ) {
+            final String pathname = uploadPath + "/" + userId + "/" + file.getOriginalFilename();
+            System.out.println("saved as: " + pathname);
+            File targetFile = new File(pathname);
+            FileUtils.copyInputStreamToFile(file.getInputStream(), targetFile);
+        }
+        model.addAttribute("logged", false);
+        return "login";
     }
 }

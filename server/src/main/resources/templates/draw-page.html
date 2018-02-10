@@ -49,13 +49,14 @@
 				</fieldset>
 			</form>
 				<div>
-					<form method="POST"  th:action="@{/fileUpload}" enctype="multipart/form-data" action="/">
+					<form method="POST"  th:action="@{/fileUpload}" enctype="multipart/form-data">
 						<fieldset>
 							<br/>
 							<h2>Wrzuć zadanie</h2>
 							<div class="row">
 								<div class="col-xs-6 col-sm-6 col-md-6">
 									<input type="file" name="file" />
+                                    <input th:value="${userId}" type="hidden" name="userId"/>
 									<input type="submit" class="btn btn-lg btn-primary btn-block" value="Wrzuć"/>
 								</div>
 								<div class="col-xs-6 col-sm-6 col-md-6">
