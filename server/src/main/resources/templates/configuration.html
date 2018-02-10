@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>System zarządzania treścią multimedialną w CTI</title>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+		<div th:replace="fragments/header :: header-css"/>
+    </head>
+    <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+		<div th:replace="fragments/header :: header"/>
+
+        <div class="container">
+            <div id="inner_container" style="padding-top:80px;text-align:center;">
+                <form method="post" action="configuration">
+                	<div class="row">
+                		<div class="col-xs-3">
+                			<label for="cfg_displaytime">Czas pokazywania slajdów ze zdjęciami [sek]: </label>
+                		</div>
+                		<div class="col-xs-9">
+                			<input type="number" min="1" step="1" id="cfg_displaytime" name="displayTime" class="form-control" th:value="${displayTime}" />
+                		</div>
+                	</div>
+                	<div class="row">
+                		<div class="col-xs-3">
+                			<label for="cfg_displaybubbles">Pokazywanie informacji o ilości slajdów oraz aktualnie wyświetlanym w postaci kropek: </label>
+                		</div>
+                		<div class="col-xs-9">
+                			<select name="displayBubbles" id="cfg_displaybubbles" class="form-control">
+                				<option value="true" th:selected="${displayBubbles.equals(trueValue)}">Tak</option>
+                				<option value="false" th:selected="${!displayBubbles.equals(trueValue)}">Nie</option>
+                			</select>
+                		</div>
+                	</div>
+                	<div class="row">
+                		<div class="col-xs-3">
+                			<label for="cfg_displayheader">Pokazuj nagłówek strony: </label>
+                		</div>
+                		<div class="col-xs-9">
+                			<select name="displayHeader" id="cfg_displayheader" class="form-control">
+                				<option value="true" th:selected="${displayHeader.equals(trueValue)}">Tak</option>
+                				<option value="false" th:selected="${!displayHeader.equals(trueValue)}">Nie</option>
+                			</select>
+                		</div>
+                	</div>
+                	<div class="row">
+                		<div class="col-xs-3">
+                			<label for="cfg_headertext">Treść nagłówka strony: </label>
+                		</div>
+                		<div class="col-xs-9">
+                			<input type="text" id="cfg_headertext" name="headerText" class="form-control" th:value="${headerText}" />
+                		</div>
+                	</div>
+                	<div class="row">
+                		<div class="col-xs-3">
+                			<label for="cfg_placeholder">Obiekt wyświetlany przy braku prezentacji: </label>
+                		</div>
+                		<div class="col-xs-9">
+                			<select name="placeholder" id="cfg_placeholder" class="form-control">
+                                <option th:each="object : ${objects}" th:value="${object.id}" th:text="${object.name}" th:selected="${placeholder == object.id}"></option>
+                			</select>
+                		</div>
+                	</div>
+                    <input id="submit" name="submit" class="button" type="submit" value="Zapisz konfigurację"/>
+                </form>
+            </div>
+        </div>
+        <div style="color:green;text-align: center;font-size: 16pt;padding-bottom: 20px;"><span th:text="${green}"></span></div>
+        <div style="color:red;text-align: center;font-size: 16pt;;padding-bottom: 20px;"><span th:text="${red}"></span></div>
+    </body>
+</html>

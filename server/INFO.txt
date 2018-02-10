@@ -1,0 +1,28 @@
+To do:
+- Spring security dla stron administracyjnych
+
+Done:
+- Modele bazy danych
+- Endpoint index - dla podłączania się telewizorów
+- Endpoint z PathVariable po którym będziemy identyfikować telewizor - na podstawie telewizora będziemy z bazy wyciągać aktualną prezentację z bazy danych i ją prezentować.
+- Podpięcie websocketów
+- Endpoint do dodawania zdjęcia / video.
+- Widok do dodawania zdjęcia / video.
+- Endpoint do dodawania/usuwania prezentacji (możliwość wyboru dowolnej ilości obrazów/filmów w określonej kolejności)
+- Widok do dodawania prezentacji
+- Logika dodawania/usuwania obiektów
+- Logika dodawania/usuwania kolekcji
+- Widok modyfikowania prezentacji
+- Logika modyfikowania prezentacji
+- Widok prezentacji do lekkiego zrefactorowania, żeby pokazywał obiekty per prezentacja per telewizor
+(na razie przekopiowany widok 1 do 1 z obiektów)
+- Przeskalowanie wszystkich obiektów na obiektach/prezentacjach, żeby ładnie się wyświetlały na stronie
+- Logika z harmonogramem
+- Pobieranie aktualnej prezentacji z bazy.
+- Przekazywanie na front informacji o tym kiedy jest wymagany refresh
+- Wygenerowanie dla każdego obrazka na obiektach i prezentacjach modala i podpięcie odpowiednich modali pod właściwe obrazki.
+- Wyświetlanie filmów w obiektach / prezentacjach (można rozpoznać po contentType) - wspierane contenttype'y w MainController:143
+- Wyświetlanie obrazków przekazanych pod id'kach na front (bez utrudniania sobie sprawy bez refactoru się nie obejdzie)
+
+Link do szablonu bootstrapa użytego w multimediach
+//https://bootsnipp.com/snippets/3XrvX
