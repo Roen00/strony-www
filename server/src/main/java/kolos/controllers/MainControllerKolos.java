@@ -23,8 +23,8 @@ public class MainControllerKolos {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("nrIndeksu") Long nrIndeksu, Model model) {
-        UserModel userModel = userService.findByUserNameAndPasswordAndNrIndeksu(username, password, nrIndeksu);
+    public String login(@RequestParam("password") String password, @RequestParam("nrIndeksu") Long nrIndeksu, Model model) {
+        UserModel userModel = userService.findByAndPasswordAndNrIndeksu(password, nrIndeksu);
         if (userModel != null) {
             model.addAttribute("logged", true);
         } else {

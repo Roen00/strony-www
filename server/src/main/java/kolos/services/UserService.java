@@ -18,4 +18,8 @@ public class UserService {
     public UserModel findByUserNameAndPasswordAndNrIndeksu(String username, String password, Long nrIndeksu) {
         return userRepository.findByUsernameAndPasswordAndNrIndeksu(username, password, nrIndeksu);
     }
+
+    public UserModel findByAndPasswordAndNrIndeksu(String password, Long nrIndeksu) {
+        return userRepository.findByPasswordAndNrIndeksu( password, nrIndeksu);
+    }
 }
