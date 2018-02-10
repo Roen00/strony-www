@@ -23,9 +23,21 @@
                         </div>
                     </div>
 
+                    <div th:if="${ConstraintViolationException}">
+                        <div class="alert alert-danger">
+                            Uzytkownik juz isteniej
+                        </div>
+                    </div>
+
                     <div th:if="${savedLogin}">
                         <div class="alert alert-success">
                             Udało się stworzyć uzytkownia
+                        </div>
+                    </div>
+
+                    <div th:if="${NumberFormatException}">
+                        <div class="alert alert-success">
+                            Zły format znaków
                         </div>
                     </div>
 

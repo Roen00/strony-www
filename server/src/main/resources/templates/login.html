@@ -26,6 +26,13 @@
                             Blad logowania!
                         </div>
                     </div>
+
+                    <div th:if="${NumberFormatException}">
+                        <div class="alert alert-info">
+                            Zły format znaków
+                        </div>
+                    </div>
+
                     <div th:if="${logout}">
                         <div class="alert alert-info">
                             Wylogowałeś się.
