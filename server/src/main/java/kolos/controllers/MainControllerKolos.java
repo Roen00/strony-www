@@ -15,6 +15,12 @@ public class MainControllerKolos {
 
     private final UserService userService;
 
+    @GetMapping("/draw-page")
+    public String drawPage(Model model) {
+        model.addAttribute("logged", false);
+        return "draw-page";
+    }
+
 
     @GetMapping("/login")
     public String login(Model model) {
@@ -27,12 +33,12 @@ public class MainControllerKolos {
         UserModel userModel = userService.findByUserNameAndPasswordAndNrIndeksu(username, password, nrIndeksu);
         if (userModel != null) {
             model.addAttribute("logged", true);
+            return "redirect:/draw-page";
         } else {
             model.addAttribute("userDoesntExists", true);
             model.addAttribute("logged", false);
             return "login";
         }
-        return "objects";
     }
 
     /* // logout
