@@ -22,19 +22,15 @@ public class TaskModel {
     private Long id;
 
     @NotNull
-    @Column(unique = true)
-    private String taskName;
-
-    @NotNull
     private Date startTime;
 
     @NotNull
     private Date endTime;
 
     @NotNull
-    private int rate;
+    private String fileName;
 
     @NotNull
-    private int fileName;
+    private Long userId;
 
 }
