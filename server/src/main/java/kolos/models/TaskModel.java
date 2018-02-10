@@ -33,4 +33,7 @@ public class TaskModel {
     @NotNull
     private Long userId;
 
+    @NotNull
+    private boolean isUploaded;
+
 }

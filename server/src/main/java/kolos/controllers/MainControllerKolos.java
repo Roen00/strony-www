@@ -69,6 +69,7 @@ public class MainControllerKolos {
             model.addAttribute("userId", userModel.getId());
             if(taskModel != null){
                 model.addAttribute("randomFile", taskModel.getFileName());
+                model.addAttribute("isUploaded", taskModel.isUploaded());
             }
             return "draw-page";
 
@@ -137,6 +138,7 @@ public class MainControllerKolos {
         requestModel.setUserId(userId);
         requestModel.setStartTime(new Date());
         requestModel.setEndTime(new Date());
+        requestModel.setUploaded(false);
         requestModel.setFileName(random);
         taskService.save(requestModel);
         return "draw-page";
@@ -163,6 +165,8 @@ public class MainControllerKolos {
     @PostMapping("/fileUpload")
     public String handleFileUpload(@RequestParam("userId") Long userId, @RequestParam("file") MultipartFile file, Model model) throws IOException {
         if(file != null && file.getSize() > 0   ) {
+            TaskModel taskModel = taskService.findByUserId(userId);
+            taskModel.setUploaded(true);
             final String pathname = uploadPath + "/" + userId + "/" + file.getOriginalFilename();
             System.out.println("saved as: " + pathname);
             File targetFile = new File(pathname);

@@ -48,7 +48,10 @@
 					</div>
 				</fieldset>
 			</form>
-				<div>
+                <div th:if="${!isUploaded}">
+                    Już wrzuciłeś swoje zmiany.
+                </div>
+				<div th:if="${isUploaded}">
 					<form method="POST"  th:action="@{/fileUpload}" enctype="multipart/form-data">
 						<fieldset>
 							<br/>
