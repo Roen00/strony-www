@@ -44,6 +44,7 @@ dependencies {
 /*	compile('org.springframework.boot:spring-boot-starter-web')*/
 	runtime("mysql:mysql-connector-java")
 	compile group: 'javax.inject', name: 'javax.inject', version: '1'
+	compile 'com.jayway.jsonpath:json-path:2.2.0'
 
 	testCompile("org.springframework.boot:spring-boot-starter-test")
 }
