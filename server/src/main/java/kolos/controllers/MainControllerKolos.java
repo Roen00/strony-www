@@ -42,6 +42,7 @@ public class MainControllerKolos {
 
             if (userModel != null) {
                 model.addAttribute("logged", true);
+                model.addAttribute("name", userModel.getUsername());
                 return "draw-page";
 
             } else {
