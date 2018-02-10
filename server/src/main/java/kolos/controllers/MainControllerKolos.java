@@ -42,7 +42,7 @@ public class MainControllerKolos {
 
             if (userModel != null) {
                 model.addAttribute("logged", true);
-                return "redirect:/draw-page";
+                return "draw-page";
 
             } else {
                 model.addAttribute("userDoesntExists", true);
