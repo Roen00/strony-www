@@ -68,7 +68,7 @@ public class MainControllerKolos {
                 userService.save(UserModel.builder().username(username).password(password).nrIndeksu(nrIndeksuInLong).build());
                 model.addAttribute("savedLogin", true);
                 model.addAttribute("logged", false);
-
+                return "/login";
             }
         }
 
