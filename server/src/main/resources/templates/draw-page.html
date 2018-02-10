@@ -28,6 +28,44 @@
 					</div>
 				</fieldset>
 			</form>
+			<form th:action="@{/fileDownload}" method="post">
+				<fieldset>
+					<br/>
+					<h2>Pobierz zadanie</h2>
+					<div class="row">
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<input type="hidden" id="fileName" name="fileName" value="pdf-sample"/>
+							<input type="submit" class="btn btn-lg btn-primary btn-block" value="Pobierz"/>
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-6">
+						</div>
+					</div>
+				</fieldset>
+			</form>
+				<div>
+					<form method="POST"  th:action="@{/fileUpload}" enctype="multipart/form-data" action="/">
+						<fieldset>
+							<br/>
+							<h2>Wrzuć zadanie</h2>
+							<div class="row">
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<input type="file" name="file" />
+									<input type="submit" class="btn btn-lg btn-primary btn-block" value="Wrzuć"/>
+								</div>
+								<div class="col-xs-6 col-sm-6 col-md-6">
+								</div>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+
+				<div>
+					<ul>
+						<li th:each="file : ${files}">
+							<a th:href="${file}" th:text="${file}" />
+						</li>
+					</ul>
+				</div>
 		</div>
 	</div>
 </div>
