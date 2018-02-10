@@ -4,6 +4,7 @@ import kolos.models.UserModel;
 import kolos.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -19,6 +20,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+
+import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collect;
 
 @Controller
 @RequiredArgsConstructor
@@ -105,19 +114,30 @@ public class MainControllerKolos {
         return "register";
     }
 
+    @PostMapping("/losuj")
+    public String randomFile(Model model) throws IOException {
+        List<String> filesInFolder = Files.walk(Paths.get(filesPath))
+                .filter(Files::isRegularFile)
+                .map(Path::getFileName)
+                .map(s -> FilenameUtils.removeExtension(s.getFileName().toString()))
+                .collect(Collectors.toList());
+        Random randomizer = new Random();
+        String random = filesInFolder.get(randomizer.nextInt(filesInFolder.size()));
+        model.addAttribute("logged", true);
+        model.addAttribute("randomFile", random);
+        return "draw-page";
+    }
+
     @PostMapping("/fileDownload")
-    public HttpEntity<byte[]> getFile(@RequestParam("fileName") String fileName, HttpServletResponse response, Model model) {
+    public HttpEntity<byte[]> getFile(@RequestParam("fileName") String fileName, Model model) {
         try {
-            // get your file as InputStream
             final String pathname = filesPath + "/" + fileName + ".pdf";
             System.out.println(pathname);
             InputStream is = FileUtils.openInputStream(new File(pathname));
-            // copy it to response's OutputStream
-            org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
-            response.flushBuffer();
 
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.set("Content-Type", "application/octet-stream");
+            headers.set("Content-Disposition", "attachment");
             headers.setContentDispositionFormData("attachment", fileName + ".pdf");
             return new HttpEntity<>(IOUtils.toByteArray(is), headers);
         } catch (IOException ex) {

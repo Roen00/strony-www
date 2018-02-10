@@ -10,28 +10,32 @@
 <div class="container">
 	<div class="row" style="margin-top:20px">
 		<div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-			<form th:action="@{/losuj}" method="post">
-				<fieldset>
-					<br/>
-					<div th:if="${param.error}">
-						<div class="alert alert-danger">
-							Niepoprawna nazwa użytkownika lub hasło.
+
+			<div th:if="${randomFile == null}">
+				<form th:action="@{/losuj}" method="post">
+					<fieldset>
+						<br/>
+						<div th:if="${param.error}">
+							<div class="alert alert-danger">
+								Niepoprawna nazwa użytkownika lub hasło.
+							</div>
 						</div>
-					</div>
-					<h2>Losuj zadanie</h2>
-					<div class="row">
-						<div class="col-xs-6 col-sm-6 col-md-6">
-							<input type="submit" class="btn btn-lg btn-primary btn-block" value="Losuj"/>
+						<h2>Losuj zadanie</h2>
+						<div class="row">
+							<div class="col-xs-6 col-sm-6 col-md-6">
+								<input type="submit" class="btn btn-lg btn-primary btn-block" value="Losuj"/>
+							</div>
+							<div class="col-xs-6 col-sm-6 col-md-6">
+							</div>
 						</div>
-						<div class="col-xs-6 col-sm-6 col-md-6">
-						</div>
-					</div>
-				</fieldset>
-			</form>
+					</fieldset>
+				</form>
+			</div>
+			<div th:if="${randomFile != null}">
 			<form th:action="@{/fileDownload}" method="post">
 				<fieldset>
 					<br/>
-					<h2>Pobierz zadanie</h2>
+					<h2 th:inline="text">Pobierz zadanie: [[${randomFile}]]</h2>
 					<div class="row">
 						<div class="col-xs-6 col-sm-6 col-md-6">
 							<input type="hidden" id="fileName" name="fileName" value="pdf-sample"/>
@@ -66,6 +70,7 @@
 						</li>
 					</ul>
 				</div>
+			</div>
 		</div>
 	</div>
 </div>
