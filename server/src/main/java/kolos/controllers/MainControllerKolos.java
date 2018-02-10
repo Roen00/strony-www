@@ -1,6 +1,8 @@
 package kolos.controllers;
 
+import kolos.models.TaskModel;
 import kolos.models.UserModel;
+import kolos.services.TaskService;
 import kolos.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
@@ -8,32 +10,29 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
-
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collect;
 
 @Controller
 @RequiredArgsConstructor
 public class MainControllerKolos {
 
     private final UserService userService;
+    private final TaskService taskService;
     private final String filesPath = "/home/rafalzel/projects/strony-www/server/files";
 
     @GetMapping("/draw-page")
@@ -58,11 +57,16 @@ public class MainControllerKolos {
             model.addAttribute("NumberFormatException", true);
         }
         UserModel userModel = userService.findByAndPasswordAndNrIndeksu(password, nrIndeksuInLong);
+        TaskModel taskModel = taskService.findByUserId(userModel.getId());
 
-            if (userModel != null) {
-                model.addAttribute("logged", true);
-                model.addAttribute("name", userModel.getUsername());
-                return "draw-page";
+        if (userModel != null) {
+            model.addAttribute("logged", true);
+            model.addAttribute("name", userModel.getUsername());
+            model.addAttribute("userId", userModel.getId());
+            if(taskModel != null){
+                model.addAttribute("randomFile", taskModel.getFileName());
+            }
+            return "draw-page";
 
         } else {
             model.addAttribute("userDoesntExists", true);
@@ -115,7 +119,7 @@ public class MainControllerKolos {
     }
 
     @PostMapping("/losuj")
-    public String randomFile(Model model) throws IOException {
+    public String randomFile(@RequestParam("userId") Long userId, Model model) throws IOException {
         List<String> filesInFolder = Files.walk(Paths.get(filesPath))
                 .filter(Files::isRegularFile)
                 .map(Path::getFileName)
@@ -125,6 +129,12 @@ public class MainControllerKolos {
         String random = filesInFolder.get(randomizer.nextInt(filesInFolder.size()));
         model.addAttribute("logged", true);
         model.addAttribute("randomFile", random);
+        final TaskModel requestModel = new TaskModel();
+        requestModel.setUserId(userId);
+        requestModel.setStartTime(new Date());
+        requestModel.setEndTime(new Date());
+        requestModel.setFileName(random);
+        taskService.save(requestModel);
         return "draw-page";
     }
 

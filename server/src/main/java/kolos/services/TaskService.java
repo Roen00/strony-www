@@ -24,4 +24,8 @@ public class TaskService {
         return taskRepository.findOne(id);
     }
 
+    public TaskModel findByUserId(Long id){
+        return taskRepository.findByUserId(id);
+    }
+
 }
