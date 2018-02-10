@@ -28,7 +28,8 @@ import static pl.lodz.p.cti.utils.ActualScheduleFinder.findActualSchedule;
 import static pl.lodz.p.cti.utils.SessionIdentifierGenerator.nextSessionId;
 import static pl.lodz.p.cti.utils.Statements.generateStatement;
 
-@Controller
+//@Controller
+//@RequestMapping("/old")
 @RequiredArgsConstructor
 public class MainController {
 
@@ -40,53 +41,6 @@ public class MainController {
     private final PresentationService presentationService;
     private final TvService tvService;
     private final ScheduleService scheduleService;
-
-    @GetMapping("/login")
-    public String login(Model model) {
-        model.addAttribute("logged", false);
-        return "/login";
-    }
-
-    @PostMapping("/login")
-    public String login(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("nrIndeksu") Long nrIndeksu, Model model) {
-        UserModel userModel = userService.findByUserNameAndPasswordAndNrIndeksu(username,password,nrIndeksu);
-        if(userModel!=null){
-            model.addAttribute("logged", true);
-        } else {
-            model.addAttribute("userDoesntExists", true);
-            model.addAttribute("logged", false);
-            return "login";
-        }
-        return "objects";
-    }
-/* // logout
-    return redirect:login*/
-    @PostMapping("/register")
-    public String registerPost(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("nrIndeksu") Long nrIndeksu, Model model) {
-        UserModel userModel = userService.findByUserNameAndPasswordAndNrIndeksu(username,password,nrIndeksu);
-        if(userModel!=null){
-            model.addAttribute("error", "Już istnieje taki uzytkownik!");
-            model.addAttribute("savedLogin", false);
-        } else {
-            userService.save(UserModel.builder().username(username).password(password).nrIndeksu(nrIndeksu).build());
-            model.addAttribute("savedLogin", true);
-        }
-        model.addAttribute("logged", false);
-        return "/register";
-    }
-
-    @GetMapping("/logout")
-    public String logout(Model model) {
-        model.addAttribute("logged", false);
-        return "redirect:/login";
-    }
-
-    @GetMapping("/register")
-    public String registerGet(Model model) {
-        model.addAttribute("logged", false);
-        model.addAttribute("savedLogin", false);
-        return "register";
-    }
 
     @GetMapping("/403")
     public String error403() {
