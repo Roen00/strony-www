@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

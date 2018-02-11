@@ -22,4 +22,8 @@ public class UserService {
     public UserModel findByAndPasswordAndNrIndeksu(String password, Long nrIndeksu) {
         return userRepository.findByPasswordAndNrIndeksu( password, nrIndeksu);
     }
+
+    public UserModel findByUserId(Long userId) {
+        return userRepository.findById(userId);
+    }
 }

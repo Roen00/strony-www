@@ -139,6 +139,9 @@ public class MainControllerKolos {
         final Date startTime = new Date();
         final Date endTime = addMinutesToDate(30, startTime);
 
+        final UserModel user = userService.findByUserId(userId);
+        model.addAttribute("userId", userId);
+        model.addAttribute("name", user.getUsername());
         model.addAttribute("logged", true);
         model.addAttribute("randomFile", random);
         model.addAttribute("isUploaded", false);
@@ -180,10 +183,13 @@ public class MainControllerKolos {
         if(file != null && file.getSize() > 0   ) {
             TaskModel taskModel = taskService.findByUserId(userId);
             taskModel.setUploaded(true);
-            final String pathname = uploadPath + "/" + userId + "/" + file.getOriginalFilename();
+            final UserModel user = userService.findByUserId(userId);
+
+            final String pathname = uploadPath + "/" + user.getNrIndeksu() + "/" + file.getOriginalFilename();
             System.out.println("saved as: " + pathname);
             File targetFile = new File(pathname);
             FileUtils.copyInputStreamToFile(file.getInputStream(), targetFile);
+            taskService.save(taskModel);
         }
         model.addAttribute("logged", false);
         return "login";
