@@ -55,7 +55,10 @@
                 <div th:if="${isUploaded}">
                     Już wrzuciłeś swoje zmiany.
                 </div>
-				<div th:if="${!isUploaded}">
+                <div th:if="${clockSeconds == 0}">
+                    Czas minął.
+                </div>
+				<div th:if="${!isUploaded and clockSeconds > 0}">
 					<form method="POST"  th:action="@{/fileUpload}" enctype="multipart/form-data">
 						<fieldset>
 							<br/>
@@ -86,6 +89,12 @@
                                 callbacks: {
                                     start: function() {
                                         // $('.message').html('The clock has started!');
+                                    },
+                                    stop: function() {
+                                        console.log("stopped");
+                                        $('.message').html('The clock has stopped!');
+                                        window.location.href = [[@{/login}]];
+
                                     }
                                 }
                             });

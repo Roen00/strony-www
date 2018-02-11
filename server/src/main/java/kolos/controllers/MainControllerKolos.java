@@ -39,6 +39,7 @@ public class MainControllerKolos {
     private final TaskService taskService;
     private final String tasksPath = "/home/rafalzel/projects/strony-www/server/files";
     private final String uploadPath = "/home/rafalzel/projects/strony-www/server/filesUploaded";
+    final int minutes = 1;
 
     @GetMapping("/draw-page")
     public String drawPage(Model model) {
@@ -71,7 +72,7 @@ public class MainControllerKolos {
             if(taskModel != null){
                 model.addAttribute("randomFile", taskModel.getFileName());
                 model.addAttribute("isUploaded", taskModel.isUploaded());
-                final long clockSeconds = (taskModel.getEndTime().getTime() - new Date().getTime()) / 1000;
+                final long clockSeconds = Math.max(0, (taskModel.getEndTime().getTime() - new Date().getTime()) / 1000);
                 model.addAttribute("clockSeconds", clockSeconds);
             }
             return "draw-page";
@@ -137,7 +138,7 @@ public class MainControllerKolos {
         String random = filesInFolder.get(randomizer.nextInt(filesInFolder.size()));
 
         final Date startTime = new Date();
-        final Date endTime = addMinutesToDate(30, startTime);
+        final Date endTime = addMinutesToDate(minutes, startTime);
 
         final UserModel user = userService.findByUserId(userId);
         model.addAttribute("userId", userId);
