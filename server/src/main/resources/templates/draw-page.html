@@ -52,10 +52,10 @@
 					</div>
 				</fieldset>
 			</form>
-                <div th:if="${!isUploaded}">
+                <div th:if="${isUploaded}">
                     Już wrzuciłeś swoje zmiany.
                 </div>
-				<div th:if="${isUploaded}">
+				<div th:if="${!isUploaded}">
 					<form method="POST"  th:action="@{/fileUpload}" enctype="multipart/form-data">
 						<fieldset>
 							<br/>
@@ -71,6 +71,33 @@
 							</div>
 						</fieldset>
 					</form>
+					<script  th:inline="javascript" >
+                        /*<![CDATA[*/
+                        var clock;
+
+                        $(document).ready(function() {
+                            var showtext = [[${clockSeconds}]];
+                            console.log(showtext);
+                            clock = $('.clock').FlipClock(showtext
+								, {
+                                clockFace: 'MinutesCounter',
+                                countdown: true,
+                                autoStart: true,
+                                callbacks: {
+                                    start: function() {
+                                        // $('.message').html('The clock has started!');
+                                    }
+                                }
+                            });
+
+                            $('.start').click(function(e) {
+
+                                clock.start();
+                            });
+
+                        });
+                        /*]]>*/
+					</script>
 				</div>
 
 				<div>
@@ -85,30 +112,6 @@
 			</div>
 		</div>
 	</div>
-
-	<script type="text/javascript">
-        var clock;
-
-        $(document).ready(function() {
-
-            clock = $('.clock').FlipClock(2700, {
-                clockFace: 'MinutesCounter',
-                countdown: true,
-                autoStart: true,
-                callbacks: {
-                    start: function() {
-                        $('.message').html('The clock has started!');
-                    }
-                }
-            });
-
-            $('.start').click(function(e) {
-
-                clock.start();
-            });
-
-        });
-	</script>
 </div>
 </body>
 </html>

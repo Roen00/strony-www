@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.joda.time.DateTime;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
@@ -70,6 +71,8 @@ public class MainControllerKolos {
             if(taskModel != null){
                 model.addAttribute("randomFile", taskModel.getFileName());
                 model.addAttribute("isUploaded", taskModel.isUploaded());
+                final long clockSeconds = (taskModel.getEndTime().getTime() - new Date().getTime()) / 1000;
+                model.addAttribute("clockSeconds", clockSeconds);
             }
             return "draw-page";
 
@@ -132,12 +135,22 @@ public class MainControllerKolos {
                 .collect(Collectors.toList());
         Random randomizer = new Random();
         String random = filesInFolder.get(randomizer.nextInt(filesInFolder.size()));
+
+        final Date startTime = new Date();
+        final Date endTime = addMinutesToDate(30, startTime);
+
         model.addAttribute("logged", true);
         model.addAttribute("randomFile", random);
+        model.addAttribute("isUploaded", false);
+        final long attributeValue = (endTime.getTime() - startTime.getTime()) / 1000;
+        model.addAttribute("clockSeconds", attributeValue);
+
         final TaskModel requestModel = new TaskModel();
+
+        requestModel.setStartTime(startTime);
+        requestModel.setEndTime(endTime);
+
         requestModel.setUserId(userId);
-        requestModel.setStartTime(new Date());
-        requestModel.setEndTime(new Date());
         requestModel.setUploaded(false);
         requestModel.setFileName(random);
         taskService.save(requestModel);
@@ -174,5 +187,13 @@ public class MainControllerKolos {
         }
         model.addAttribute("logged", false);
         return "login";
+    }
+
+    private static Date addMinutesToDate(int minutes, Date beforeTime){
+        final long ONE_MINUTE_IN_MILLIS = 60000;
+
+        long curTimeInMs = beforeTime.getTime();
+        Date afterAddingMins = new Date(curTimeInMs + (minutes * ONE_MINUTE_IN_MILLIS));
+        return afterAddingMins;
     }
 }
